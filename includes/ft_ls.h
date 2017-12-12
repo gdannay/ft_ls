@@ -8,5 +8,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <grp.h>
+# include <pwd.h>
 
 #endif
