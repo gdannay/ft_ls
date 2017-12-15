@@ -1,156 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ls.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/12/15 10:49:20 by gdannay           #+#    #+#             */
+/*   Updated: 2017/12/15 14:39:38 by gdannay          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
+#include "libft.h"
 
-/*int	main(void)
+int		main(int ac, char **av)
 {
-	DIR* rep;
+	DIR*	rep;
+	t_file	*file;
+	char	*dir;
 
-	struct dirent* fichier;
-	rep = opendir("./srcs/");
-	if (rep == NULL)
-		return (0);
-	while ((fichier = readdir(rep)))
-		printf("OKAY s'appelle %s\n", fichier->d_name);
-	printf("Test = %ld", telldir(rep));
-	if (closedir(rep) == -1)
-		return (0);
-//	printf("ICI");
-}*/
-
-
-
-int		main(void)
-{
-	DIR* rep;
-
-	struct dirent* fichier;
-	struct stat fileStat;
-	struct group *grp;
-	struct passwd *uid;
-	rep = opendir("./srcs/");
-	fichier = readdir(rep);
-	printf("OKAY s'appelle %c\n", fichier->d_type);
-	fichier = readdir(rep);
-	printf("OKAY s'appelle %s\n", fichier->d_name);
-	fichier = readdir(rep);
-	printf("OKAY s'appelle %s\n", fichier->d_name);
-	fichier = readdir(rep);
-	printf("OKAY s'appelle %d\n", fichier->d_type);
-	if(stat("./srcs/ft_ls.c",&fileStat) < 0)
-		return (1);
-	grp = getgrgid(fileStat.st_gid);
-	uid = getpwuid(fileStat.st_uid);
-		printf("File Size: \t\t%s\n", grp->gr_passwd);
-	printf("%d", S_IWUSR);
+	dir = NULL;
+	if (ac > 1)
+	{
+		if (check_args(ac, av) == 0)
+			return (0);
+	}
+	else
+	{
+		dir = ft_strdup(".");
+		if ((rep = opendir(dir)) == NULL)
+			return (0);
+		file = parse_rep(rep, dir);
+		if (closedir(rep) == -1)
+			return (0);
+	}
+/*	while (file)
+	{
+		printf("Name = %.8s\t", file->name);
+		printf("grp_name =  %s\t", file->grp_name);
+		printf("pw_name =  %s\t", file->pw_name);
+		printf("Time =  %s\t", ctime(&(file->mtime)));
+		printf("Size = %d\t", file->size);
+		printf("Links = %d\t", file->links);
+		printf("Protec = %d\n", file->protec);
+		file = file->next;
+	}*/
 }
-
-#include <stdio.h>
-       #include <stdlib.h>
-       #include <string.h>
-       #include <sys/types.h>
-       #include <sys/xattr.h>
-
-       int
-	          main(int argc, char *argv[])
-	       {
-			              ssize_t buflen, keylen, vallen;
-						             char *buf, *key, *val;
-
-									            if (argc != 2) {
-													               fprintf(stderr, "Usage: %s path\n", argv[0]);
-																                  exit(EXIT_FAILURE);
-																				             }
-
-												           /*
-															*             * Determine the length of the buffer needed.
-															*                         */
-												           buflen = listxattr(argv[1], NULL, 0);
-														              if (buflen == -1) {
-																		                 perror("listxattr");
-																						                exit(EXIT_FAILURE);
-																										           }
-																	             if (buflen == 0) {
-																					                printf("%s has no attributes.\n", argv[1]);
-																									               exit(EXIT_SUCCESS);
-																												              }
-
-																				            /*
-																							 *             * Allocate the buffer.
-																							 *                         */
-																				            buf = malloc(buflen);
-																							           if (buf == NULL) {
-																										                  perror("malloc");
-																														                 exit(EXIT_FAILURE);
-																																		            }
-
-																									              /*
-																												   *             * Copy the list of attribute keys to the buffer.
-																												   *                         */
-																									              buflen = listxattr(argv[1], buf, buflen);
-																												             if (buflen == -1) {
-																																                perror("listxattr");
-																																				               exit(EXIT_FAILURE);
-																																							              }
-
-																															            /*
-																																		 *             * Loop over the list of zero terminated strings with the
-																																		 *                         * attribute keys. Use the remaining buffer length to determine
-																																		 *                                     * the end of the list.
-																																		 *                                                 */
-																															            key = buf;
-																																		           while (buflen > 0) {
-
-																																					                  /*
-																																									   *                 * Output attribute key.
-																																									   *                                 */
-																																					                  printf("%s: ", key);
-
-																																									                 /*
-																																													  *                 * Determine length of the value.
-																																													  *                                 */
-																																									                 vallen = getxattr(argv[1], key, NULL, 0);
-																																													                if (vallen == -1)
-																																																		                   perror("getxattr");
-
-																																																	               if (vallen > 0) {
-
-																																																					                      /*
-																																																										   *                     * Allocate value buffer.
-																																																										   *                                         * One extra byte is needed to append 0x00.
-																																																										   *                                                             */
-																																																					                      val = malloc(vallen + 1);
-																																																										                     if (val == NULL) {
-																																																																                        perror("malloc");
-																																																																						                       exit(EXIT_FAILURE);
-																																																																											                      }
-
-																																																															                    /*
-																																																																				 *                     * Copy value to buffer.
-																																																																				 *                                         */
-																																																															                    vallen = getxattr(argv[1], key, val, vallen);
-																																																																				                   if (vallen == -1)
-																																																																									                          perror("getxattr");
-																																																																								                      else {
-																																																																														                         /*
-																																																																																				  *                         * Output attribute value.
-																																																																																				  *                                                 */
-																																																																														                         val[vallen] = 0;
-																																																																																				                        printf("%s", val);
-																																																																																										                   }
-
-																																																																													                     free(val);
-																																																																																		                } else if (vallen == 0)
-																																																																																							                   printf("<no value>");
-
-																																																																																						               printf("\n");
-
-																																																																																									                  /*
-																																																																																													   *                 * Forward to next attribute key.
-																																																																																													   *                                 */
-																																																																																									                  keylen = strlen(key) + 1;
-																																																																																													                 buflen -= keylen;
-																																																																																																	                key += keylen;
-																																																																																																					           }
-
-																																				              free(buf);
-																																							             exit(EXIT_SUCCESS);
-																																										        }
