@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 18:25:50 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 20:18:39 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/15 20:34:21 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ static int		namecmp(t_file *tmp, t_file *comp, int rev)
 	return (ft_strcmp(comp->name, tmp->name) * rev);
 }
 
-static void		display_f(t_file **file, int(*f)(t_file*, t_file*, int), int rev)
+static void		display_f(t_file **file, int(*f)(t_file*, t_file*, int), int rev, int flag)
 {
 	t_file	*tmp;
 	t_file	*comp;
 
+	flag = 0;
 	tmp = *file;
 	comp = NULL;
 	if (tmp)
@@ -39,7 +40,10 @@ static void		display_f(t_file **file, int(*f)(t_file*, t_file*, int), int rev)
 			tmp = comp;
 		comp = comp->next;
 	}
-	ft_printf("%s\n", tmp->name);
+//	if (flag & F_R)
+//		print_det(tmp);
+//	else
+		ft_printf("%s\n", tmp->name);
 	delete_file(file, tmp);
 }
 
@@ -60,9 +64,9 @@ int		display_file(t_file *file, int flag)
 	while (j < size)
 	{
 		if (flag & F_T)
-			display_f(&file, &timecmp, rev);
+			display_f(&file, &timecmp, rev, flag);
 		else
-			display_f(&file, &namecmp, rev);
+			display_f(&file, &namecmp, rev, flag);
 		j++;
 	}	
 	return (0);

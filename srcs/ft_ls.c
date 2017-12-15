@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 10:49:20 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 20:02:07 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/15 20:31:09 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int		main(int ac, char **av)
 		if ((rep = opendir(dir)) == NULL)
 			return (0);
 		file = parse_rep(rep, dir, 0);
+		display_file(file, 0);
 		if (closedir(rep) == -1)
 			return (0);
 	}

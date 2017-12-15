@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 12:23:25 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 20:02:18 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/15 21:09:50 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		check_flag(char *str)
 	return (flag);
 }
 
-static void		check_file(char *path, char *file, char *error)
+static int		check_file(char *path, char *file, char *error, int check)
 {
 
 	struct dirent	*fichier;
@@ -58,7 +58,7 @@ static void		check_file(char *path, char *file, char *error)
 	{
 		ft_printf("ls: %s: ", error);
 		perror("");
-		return;
+		return (1);
 	}
 	fichier = readdir(rep);
 	while (fichier && ft_strcmp(fichier->d_name, file) != 0)
@@ -67,31 +67,48 @@ static void		check_file(char *path, char *file, char *error)
 	{
 		ft_printf("ls: %s: ", error);
 		perror("");
+		return (1);
 	}
-	else
-		ft_printf("%s\n", file);
+	else if (fichier && !(check))
+		ft_printf("%s\n\n", file);
+	return (0);
 }
 
 static void		manage_args(char *av, int flag)
 {
 	DIR			*rep;
+	t_file		*file;
 	char		*path;
 	char		*rest;
-	t_file		*file;
 
-	rest = NULL;
-	(void)flag;
-	if ((rep = opendir(av)) == NULL)
+	if (av && (rep = opendir(av)) == NULL)
 	{
 		path = manage_path(av, &rest);
-		check_file(path, rest, av);
+		check_file(path, rest, av, 0);
 	}
-	else
+	if (av && (rep = opendir(av)) != NULL)
 	{
+		ft_printf("%s:\n", av);
 		file = parse_rep(rep, av, flag);
 		display_file(file, flag);
 		if (closedir(rep) == -1)
 			return;
+		printf("\n");
+	}
+}
+
+static void		manage_error(char **av)
+{
+	DIR		*rep;
+	char	*path;
+	char	*rest;
+
+	rest = NULL;
+	if ((rep = opendir(*av)) == NULL)
+	{
+		path = manage_path(*av, &rest);
+		if (check_file(path, rest, *av, 1))
+			*av = NULL;
 	}
 }
 
@@ -101,12 +118,17 @@ int		check_args(int ac, char **av)
 	int		flag;
 
 	flag = 0;
-	i = 1;
+	i = 0;
 	if (av[1][0] == '-')
 	{
 		if ((flag = check_flag(av[1])) < 0)
 			return (usage(flag));
 	}
+	if (flag > 0)
+		i++;
+	while (++i < ac)
+		manage_error(&(av[i]));
+	i = 1;
 	if (flag > 0)
 		i++;
 	while (i < ac)
