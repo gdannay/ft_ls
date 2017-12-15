@@ -6,13 +6,20 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 12:23:25 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 16:03:37 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/15 17:54:31 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_ls.h"
 #include "ft_printf.h"
+
+static int	usage(int flag)
+{
+	ft_printf("ls: illegal option -- %c\n", flag * -1);
+	ft_printf("usage: ls [-Ralrt] [file ...]\n");
+	return (0);
+}
 
 int		check_flag(char *str)
 {
@@ -41,51 +48,69 @@ int		check_flag(char *str)
 	return (flag);
 }
 
+static void		check_file(char *path, char *file, char *error)
+{
+
+	struct dirent	*fichier;
+	DIR				*rep;
+
+	if ((rep = opendir(path)) == NULL)
+	{
+		ft_printf("ls: %s: ", error);
+		perror("");
+		return;
+	}
+	fichier = readdir(rep);
+	while (fichier && ft_strcmp(fichier->d_name, file) != 0)
+		fichier = readdir(rep);
+	if (fichier == NULL)
+	{
+		ft_printf("ls: %s: ", error);
+		perror("");
+	}
+	else
+		ft_printf("%s\n", file);
+}
+
+static void		manage_args(char *av, int flag)
+{
+	DIR			*rep;
+	char		*path;
+	char		*rest;
+	t_file		*file;
+
+	rest = NULL;
+	(void)flag;
+	if ((rep = opendir(av)) == NULL)
+	{
+		path = manage_path(av, &rest);
+		check_file(path, rest, av);
+	}
+	else
+	{
+		file = parse_rep(rep, av);
+		if (closedir(rep) == -1)
+			return;
+	}
+}
+
 int		check_args(int ac, char **av)
 {
-	int 			i;
-	int 			flag;
-	DIR				*rep;
-	char			*path;
-	struct dirent	*fichier;
-	char			*rest;
+	int 	i;
+	int		flag;
 
 	flag = 0;
 	i = 1;
-	rest = NULL;
 	if (av[1][0] == '-')
-		flag = check_flag(av[1]);
-	if (flag < 0)
 	{
-		ft_printf("ls: illegal option -- %c\n", flag * -1);
-		ft_printf("usage: ls [-Ralrt] [file ...]\n");
-		return (0);
+		if ((flag = check_flag(av[1])) < 0)
+			return (usage(flag));
 	}
 	if (flag > 0)
 		i++;
 	while (i < ac)
 	{
-		path = manage_path(av[i], &rest);
-		if ((rep = opendir(path)) == NULL)
-		{
-			if ((rep = opendir(".")) == NULL)
-				return (0);
-			fichier = readdir(rep);
-			while (fichier && ft_strcmp(fichier->d_name, av[i]) != 0)
-				fichier = readdir(rep);
-			if (fichier == NULL)
-			{
-				ft_printf("ls: %s: ", av[i]);
-				perror("");
-			}
-			else
-				ft_printf("%s\n", av[i]);
-		}
-		else
-		{
-
-
-		}
+		manage_args(av[i], flag);
 		i++;
 	}
 	return (0);

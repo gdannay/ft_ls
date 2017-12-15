@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 15:18:48 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 16:01:18 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/15 17:09:09 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	*manage_path(char *str, char **rest)
 		if ((dir = joindir(".", path)) == NULL)
 			return (NULL);
 		j++;
+		*rest = ft_strsub(str, j, ft_strlen(str) - (size_t)j);
 		ft_strdel(&path);
 		return (dir);
 	}
