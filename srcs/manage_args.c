@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 12:23:25 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 17:54:31 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/15 20:02:18 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ static void		manage_args(char *av, int flag)
 	}
 	else
 	{
-		file = parse_rep(rep, av);
+		file = parse_rep(rep, av, flag);
+		display_file(file, flag);
 		if (closedir(rep) == -1)
 			return;
 	}

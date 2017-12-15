@@ -39,10 +39,13 @@ typedef struct		s_file
 	struct s_file	*next;
 }					t_file;
 
-t_file				*parse_rep(DIR *rep, char *dir);
+t_file				*parse_rep(DIR *rep, char *dir, int flag);
 int					check_flag(char *str);
 int					check_args(int ac, char **av);
 char				*joindir(char *dir, char *name);
 char				*manage_path(char *str, char **rest);
+int					display_file(t_file *file, int flag);
+int					lstlen(t_file *file);
+void				delete_file(t_file **file, t_file *del);
 
 #endif

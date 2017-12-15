@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 10:58:11 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 15:19:35 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/15 20:28:04 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static	t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir)
 	return (file);
 }
 
-t_file			*parse_rep(DIR *rep, char *dir)
+t_file			*parse_rep(DIR *rep, char *dir, int flag)
 {
 	struct dirent	*fichier;
 	t_file			*file;
@@ -53,15 +53,19 @@ t_file			*parse_rep(DIR *rep, char *dir)
 	tmp = NULL;
 	while ((fichier = readdir(rep)))
 	{
-		if (file == NULL)
+		if ((flag & F_A && fichier->d_name[0] == '.')
+				|| fichier->d_name[0] != '.')
 		{
-			file = get_file(fichier, file, dir);
-			tmp = file;
+			if (file == NULL)
+			{
+				file = get_file(fichier, file, dir);
+				tmp = file;
+			}
+			else
+				tmp = get_file(fichier, tmp, dir);
+			if (tmp == NULL)
+				return (NULL);
 		}
-		else
-			tmp = get_file(fichier, tmp, dir);
-		if (tmp == NULL)
-			return (NULL);
 	}
 	return (file);
 }

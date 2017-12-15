@@ -6,7 +6,7 @@
 #    By: gdannay <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/15 10:22:09 by gdannay           #+#    #+#              #
-#    Updated: 2017/12/15 15:19:58 by gdannay          ###   ########.fr        #
+#    Updated: 2017/12/15 20:00:09 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ NAME	=	ft_ls
 SRCS	=	./srcs/ft_ls.c			\
 			./srcs/get_infos.c		\
 			./srcs/manage_args.c	\
-			./srcs/manage_path.c
+			./srcs/manage_path.c	\
+			./srcs/display.c		\
+			./srcs/manage_list.c
 
 OBJS	=	$(SRCS:.c=.o)
 
