@@ -6,7 +6,7 @@
 #    By: gdannay <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/15 10:22:09 by gdannay           #+#    #+#              #
-#    Updated: 2017/12/15 20:00:09 by gdannay          ###   ########.fr        #
+#    Updated: 2017/12/16 17:34:30 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,19 +17,21 @@ SRCS	=	./srcs/ft_ls.c			\
 			./srcs/manage_args.c	\
 			./srcs/manage_path.c	\
 			./srcs/display.c		\
+			./srcs/manage_error.c	\
+			./srcs/manage_lflag.c	\
 			./srcs/manage_list.c
 
 OBJS	=	$(SRCS:.c=.o)
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -Werror -I./libft/ -I./includes/
+CFLAGS	=	-Wall -Wextra -Werror -I./includes/
 
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJS)
 			make -C libft
-			$(CC) $(OBJS) -L libft -lft -L. -lftprintf -o $(NAME)
+			$(CC) $(OBJS) libft/libft.a libftprintf.a -o $(NAME)
 
 %.o		:	%.c
 			$(CC) -o $@ -c $< $(CFLAGS)

@@ -6,11 +6,10 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 15:18:48 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 17:09:09 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/16 17:26:23 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "ft_ls.h"
 
 char	*joindir(char *dir, char *name)
@@ -65,9 +64,12 @@ char	*manage_path(char *str, char **rest)
 		if ((dir = joindir(".", path)) == NULL)
 			return (NULL);
 		j++;
-		*rest = ft_strsub(str, j, ft_strlen(str) - (size_t)j);
+		if ((*rest = ft_strsub(str, j, ft_strlen(str) - (size_t)j)) == NULL)
+			return (NULL);
 		ft_strdel(&path);
 		return (dir);
 	}
-	return (joindir(".", str));
+	if ((*rest = ft_strdup(str)) == NULL)
+		return (NULL);
+	return (ft_strdup("."));
 }

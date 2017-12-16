@@ -6,19 +6,30 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 12:23:25 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 21:09:50 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/16 17:24:47 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "ft_ls.h"
 #include "ft_printf.h"
 
-static int	usage(int flag)
+int		get_last(char **av, int ac, int flag)
 {
-	ft_printf("ls: illegal option -- %c\n", flag * -1);
-	ft_printf("usage: ls [-Ralrt] [file ...]\n");
-	return (0);
+	int i;
+	int j;
+
+	if (flag > 0)
+		i = 2;
+	else
+		i = 1;
+	j = 0;
+	while (i < ac)
+	{
+		if (av[i] != NULL)
+			j = i;
+		i++;
+	}
+	return (j);
 }
 
 int		check_flag(char *str)
@@ -48,7 +59,7 @@ int		check_flag(char *str)
 	return (flag);
 }
 
-static int		check_file(char *path, char *file, char *error, int check)
+struct dirent	*check_file(char *path, char *file, char *error)
 {
 
 	struct dirent	*fichier;
@@ -58,7 +69,7 @@ static int		check_file(char *path, char *file, char *error, int check)
 	{
 		ft_printf("ls: %s: ", error);
 		perror("");
-		return (1);
+		return (NULL);
 	}
 	fichier = readdir(rep);
 	while (fichier && ft_strcmp(fichier->d_name, file) != 0)
@@ -67,55 +78,53 @@ static int		check_file(char *path, char *file, char *error, int check)
 	{
 		ft_printf("ls: %s: ", error);
 		perror("");
-		return (1);
+		return (NULL);
 	}
-	else if (fichier && !(check))
-		ft_printf("%s\n\n", file);
-	return (0);
+	return (fichier);
 }
 
-static void		manage_args(char *av, int flag)
+static int		manage_args(char *av, int flag, int several)
 {
 	DIR			*rep;
 	t_file		*file;
 	char		*path;
 	char		*rest;
-
-	if (av && (rep = opendir(av)) == NULL)
-	{
-		path = manage_path(av, &rest);
-		check_file(path, rest, av, 0);
-	}
-	if (av && (rep = opendir(av)) != NULL)
-	{
-		ft_printf("%s:\n", av);
-		file = parse_rep(rep, av, flag);
-		display_file(file, flag);
-		if (closedir(rep) == -1)
-			return;
-		printf("\n");
-	}
-}
-
-static void		manage_error(char **av)
-{
-	DIR		*rep;
-	char	*path;
-	char	*rest;
+	t_length	*length;
 
 	rest = NULL;
-	if ((rep = opendir(*av)) == NULL)
+	path = NULL;
+	length = NULL;
+	if (flag & F_L)
 	{
-		path = manage_path(*av, &rest);
-		if (check_file(path, rest, *av, 1))
-			*av = NULL;
+		if ((length = create_l()) == NULL)
+			return (0);
 	}
+	if (av && (rep = opendir(av)) == NULL)
+	{
+		if ((path = manage_path(av, &rest)) == NULL)
+			return (0);
+		if (check_file(path, rest, av) != NULL)
+			ft_printf("%s\n", rest);
+		ft_strdel(&path);
+		ft_strdel(&rest);
+	}
+	else if (av && (rep = opendir(av)) != NULL)
+	{
+		if (several)
+			ft_printf("%s:\n", av);
+		file = parse_rep(rep, av, flag, length);
+		display_file(file, flag, length);
+		if (closedir(rep) == -1)
+			return (0);
+	}
+	return (1);
 }
 
 int		check_args(int ac, char **av)
 {
 	int 	i;
 	int		flag;
+	int		last;
 
 	flag = 0;
 	i = 0;
@@ -126,14 +135,24 @@ int		check_args(int ac, char **av)
 	}
 	if (flag > 0)
 		i++;
-	while (++i < ac)
-		manage_error(&(av[i]));
+	if (ac == 2 && flag > 0)
+	{
+		if (manage_args(".", flag, 0) == 0)
+			return (0);
+	}
+	manage_error(av, flag, i, ac);
 	i = 1;
 	if (flag > 0)
 		i++;
+//	if (flag & F_L)
+//		print_files(&(av), ac, i);
+	last = get_last(av, ac, flag);
 	while (i < ac)
 	{
-		manage_args(av[i], flag);
+		if (manage_args(av[i], flag, ac - 3 + !(flag)) == 0)
+			return (0);
+		if (i < last && av[i])
+			printf("\n");
 		i++;
 	}
 	return (0);

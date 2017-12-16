@@ -6,12 +6,11 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 10:49:20 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 20:31:09 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/16 17:25:47 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include "libft.h"
 
 int		main(int ac, char **av)
 {
@@ -30,8 +29,8 @@ int		main(int ac, char **av)
 		dir = ft_strdup(".");
 		if ((rep = opendir(dir)) == NULL)
 			return (0);
-		file = parse_rep(rep, dir, 0);
-		display_file(file, 0);
+		file = parse_rep(rep, dir, 0, NULL);
+		display_file(file, 0, NULL);
 		if (closedir(rep) == -1)
 			return (0);
 	}

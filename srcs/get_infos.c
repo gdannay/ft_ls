@@ -6,20 +6,22 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 10:58:11 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 20:28:04 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/16 17:24:54 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "ft_ls.h"
 
-static	t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir)
+t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir, int flag)
 {
 	struct stat		fileStat;
 	struct group	*grp;
 	struct passwd	*uid;
 	t_file			*file;
 	char			*file_dir;
+	char			*path;
+	ssize_t 		len;
+	char			buff[1024];
 
 	if ((file_dir = joindir(dir, fichier->d_name)) == NULL)
 		return (NULL);
@@ -29,21 +31,35 @@ static	t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir)
 		return (NULL);
 	grp = getgrgid(fileStat.st_gid);
 	uid = getpwuid(fileStat.st_uid);
-	file->name = fichier->d_name;
+	file->name = ft_strdup(fichier->d_name);
 	file->type = fichier->d_type;
-	file->grp_name = grp->gr_name;
-	file->pw_name = uid->pw_name;
+	file->grp_name = ft_strdup(grp->gr_name);
+	file->pw_name = ft_strdup(uid->pw_name);
+	if (!(file->name) || !(file->grp_name) || !(file->pw_name))
+		return (NULL);
 	file->protec = fileStat.st_mode;
 	file->size = fileStat.st_size;
 	file->mtime = fileStat.st_mtime;
 	file->links = fileStat.st_nlink;
+	if (file->type == DT_LNK && (flag & F_L))
+	{
+		if ((path = joindir(dir, file->name)) == NULL)
+			return (NULL);
+		if ((len = readlink(path, buff, 1023)) == -1)
+			return (NULL);
+		buff[len] = '\0';
+		file->d_link = ft_strdup(buff);
+		ft_strdel(&path);
+	}
+	else
+		file->d_link = NULL;
 	file->next = NULL;
 	if (tmp != NULL)
 		tmp->next = file;
 	return (file);
 }
 
-t_file			*parse_rep(DIR *rep, char *dir, int flag)
+t_file			*parse_rep(DIR *rep, char *dir, int flag, t_length *length)
 {
 	struct dirent	*fichier;
 	t_file			*file;
@@ -58,13 +74,15 @@ t_file			*parse_rep(DIR *rep, char *dir, int flag)
 		{
 			if (file == NULL)
 			{
-				file = get_file(fichier, file, dir);
+				file = get_file(fichier, file, dir, flag);
 				tmp = file;
 			}
 			else
-				tmp = get_file(fichier, tmp, dir);
+				tmp = get_file(fichier, tmp, dir, flag);
 			if (tmp == NULL)
 				return (NULL);
+			if (flag & F_L)
+				compute_length(length, tmp);
 		}
 	}
 	return (file);

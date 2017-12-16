@@ -6,12 +6,11 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:00:17 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/15 20:03:26 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/16 17:26:14 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include "libft.h"
 
 int			lstlen(t_file *file)
 {
