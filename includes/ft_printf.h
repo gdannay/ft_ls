@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 10:06:04 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/13 19:32:17 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/18 10:02:30 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ int						print_buff(char *buff);
 int						manage_buff(char *buff, char *str, size_t length);
 int						add_right(char *buff, char *str, int index, size_t length);
 int						add_char_right(char *buff, char c, int index, size_t length);
-int						add_char_left(char *buff, char c, int index, size_t length);
+int						add_char_left(char *buff, char c, int *index, size_t length);
 
 #endif
