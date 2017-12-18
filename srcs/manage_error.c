@@ -12,6 +12,7 @@
 
 #include "ft_ls.h"
 #include "ft_printf.h"
+#include "libft.h"
 
 int		usage(int flag)
 {

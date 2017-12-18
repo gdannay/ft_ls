@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include "ft_printf.h"
+#include "libft.h"
 
 t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir, int flag)
 {

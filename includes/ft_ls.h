@@ -20,7 +20,6 @@
 
 # include <stdlib.h>
 # include <stdio.h>
-# include "../libft/libft.h"
 # include <dirent.h>
 # include <sys/types.h>
 # include <sys/stat.h>

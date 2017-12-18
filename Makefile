@@ -27,21 +27,26 @@ CC		=	gcc
 
 CFLAGS	=	-Wall -Wextra -Werror -I./includes/
 
+LDFLAGS	=	-L./libft -lft -L./ft_printf -lftprintf
+
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJS)
 			make -C libft
-			$(CC) $(OBJS) libft/libft.a libftprintf.a -o $(NAME)
-
+			make -C ft_printf
+			$(CC) -o $(NAME) $(OBJS) $(LDFLAGS)
+			
 %.o		:	%.c
 			$(CC) -o $@ -c $< $(CFLAGS)
 
 clean	:	
 			make clean -C libft
+			make clean -C ft_printf
 			rm -rf $(OBJS)
 
 fclean	:	
 			make fclean -C libft
+			make fclean -C ft_printf
 			rm -rf $(OBJS)
 			rm -rf $(NAME)
 

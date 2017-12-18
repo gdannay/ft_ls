@@ -12,6 +12,7 @@
 
 #include "ft_ls.h"
 #include "ft_printf.h"
+#include "libft.h"
 
 int		get_last(char **av, int ac, int flag)
 {
@@ -144,8 +145,6 @@ int		check_args(int ac, char **av)
 	i = 1;
 	if (flag > 0)
 		i++;
-//	if (flag & F_L)
-//		print_files(&(av), ac, i);
 	last = get_last(av, ac, flag);
 	while (i < ac)
 	{

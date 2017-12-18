@@ -17,8 +17,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <inttypes.h>
-# include "../libft/libft.h"
 # include <wchar.h>
+# include "libft.h"
 
 # define BINA "01"
 # define DECI "0123456789"

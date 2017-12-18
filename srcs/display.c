@@ -12,6 +12,7 @@
 
 #include "ft_ls.h"
 #include "ft_printf.h"
+#include "libft.h"
 
 static int		timecmp(t_file *tmp, t_file *comp, int rev)
 {
@@ -49,7 +50,6 @@ int		display_file(t_file *file, int flag, t_length *length)
 {
 	int		size;
 	int		j;
-	t_file	*tmp;
 	int		rev;
 
 	j = 0;
@@ -57,7 +57,6 @@ int		display_file(t_file *file, int flag, t_length *length)
 		rev = -1;
 	else
 		rev = 1;
-	tmp = file;
 	size = lstlen(file);
 	while (j < size)
 	{
