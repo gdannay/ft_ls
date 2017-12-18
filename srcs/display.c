@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 18:25:50 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 10:56:23 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/18 13:21:37 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static void		display_f(t_file **file, int(*f)(t_file*, t_file*, int), int rev, t
 			tmp = comp;
 		comp = comp->next;
 	}
-	dprintf(1, "SIZE = ");
 	if (length)
 		print_det(tmp, length);
 	else
@@ -59,7 +58,8 @@ int		display_file(t_file *file, int flag, t_length *length, int files)
 	else
 		rev = 1;
 	size = lstlen(file);
-	if (flag | F_L && !(files))
+	files = 0;
+	if (flag & F_L && !(files) && length)
 		ft_printf("total %d\n", length->blocks);
 	while (j < size)
 	{

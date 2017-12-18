@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 10:30:17 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 10:40:00 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/18 13:49:29 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int					display_file(t_file *file, int flag, t_length *length, int files);
 int					lstlen(t_file *file);
 void				delete_file(t_file **file, t_file *del);
 int					usage(int flag);
-void				manage_error(char **av, int flag, int i, int ac);
+int					manage_error(char **av, int flag, int i, int ac);
 struct dirent		*check_file(char *path, char *file, char *error);
 t_length			*create_l();
 void				print_det(t_file *tmp, t_length *length);

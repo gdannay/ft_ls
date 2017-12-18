@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 12:06:20 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 10:40:36 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/18 14:03:45 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 int		usage(int flag)
 {
 	ft_printf("ls: illegal option -- %c\n", flag * -1);
-	ft_printf("usage: ls [-Ralrt] [file ...]\n");
+	write(2, "usage: ls [-Ralrt] [file ...]\n", 30);
 	return (0);
 }
 
-void	manage_error(char **av, int flag, int i, int ac)
+int		manage_error(char **av, int flag, int i, int ac)
 {
 	DIR				*rep;
 	char			*path;
@@ -37,16 +37,23 @@ void	manage_error(char **av, int flag, int i, int ac)
 	if (flag & F_L)
 	{
 		if ((length = create_l()) == NULL)
-			return;
+			return (0);
 	}
 	while (++i < ac)
 	{
 		if ((rep = opendir(av[i])) == NULL)
 		{
+					dprintf(1,"ICI %d %s\n", ft_strcmp(rest, ""), av[i]);
 			if ((path = manage_path(av[i], &rest)) == NULL)
-				return;
+				return (0);
 			if ((fichier = check_file(path, rest, av[i])) == NULL)
+			{
+				if (ft_strcmp(rest, "") == 0)
+				{
+					return (0);
+				}
 				av[i] = NULL;
+			}
 			else if (flag & F_L)
 			{
 				if (file == NULL)
@@ -57,7 +64,7 @@ void	manage_error(char **av, int flag, int i, int ac)
 				else
 					tmp = get_file(fichier, tmp, path, flag);
 				if (tmp == NULL)
-					return;
+					return (0);
 				compute_length(length, tmp);
 				av[i] = NULL;
 			}
@@ -71,4 +78,5 @@ void	manage_error(char **av, int flag, int i, int ac)
 		if (get_last(av, ac, flag) != 0)
 			ft_printf("\n");
 	}
+	return (1);
 }

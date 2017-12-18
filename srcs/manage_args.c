@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 12:23:25 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 10:41:04 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/18 13:53:35 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ struct dirent	*check_file(char *path, char *file, char *error)
 	struct dirent	*fichier;
 	DIR				*rep;
 
+	if (ft_strcmp(error, "") == 0)
+	{
+		ft_printf("ls: fts_open: ");
+		perror("");
+		return (NULL);
+	}
 	if ((rep = opendir(path)) == NULL)
 	{
 		ft_printf("ls: %s: ", error);
@@ -128,22 +134,22 @@ int		check_args(int ac, char **av)
 	int		last;
 
 	flag = 0;
-	i = 0;
-	if (av[1][0] == '-')
-	{
-		if ((flag = check_flag(av[1])) < 0)
-			return (usage(flag));
-	}
-	if (flag > 0)
-		i++;
-	if (ac == 2 && flag > 0)
-	{
-		if (manage_args(".", flag, 0) == 0)
-			return (0);
-	}
-	manage_error(av, flag, i, ac);
 	i = 1;
-	if (flag > 0)
+	while (av[i] && av[i][0] == '-')
+	{
+		if ((flag = flag | check_flag(av[i])) < 0)
+			return (usage(flag));
+		i++;
+	}
+	if (av[i] == NULL)
+	{
+		manage_args(".", flag, 0);
+		return (0);
+	}
+	if (manage_error(av, flag, i, ac) == 0)
+		return (0);
+	i = 1;
+	while (av[i][0] == '-')
 		i++;
 	last = get_last(av, ac, flag);
 	while (i < ac)
