@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 12:23:25 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/16 17:24:47 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/18 10:41:04 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static int		manage_args(char *av, int flag, int several)
 		if (several)
 			ft_printf("%s:\n", av);
 		file = parse_rep(rep, av, flag, length);
-		display_file(file, flag, length);
+		display_file(file, flag, length, 0);
 		if (closedir(rep) == -1)
 			return (0);
 	}

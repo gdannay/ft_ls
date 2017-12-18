@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 12:17:51 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/16 17:25:12 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/18 10:47:18 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_length		*create_l()
 	length->l_pwname = 0;
 	length->l_grpname = 0;
 	length->l_size = 0;
+	length->blocks = 0;
 	return (length);
 }
 
@@ -40,8 +41,9 @@ void			compute_length(t_length *l, t_file *tmp)
 	l->l_grpname = l->l_grpname > i ? l->l_grpname : i;
 	i = length_nbr(tmp->size);
 	l->l_size = l->l_size > i ? l->l_size : i;
-	i = length_nbr(tmp->size);
+	i = length_nbr(tmp->links);
 	l->l_links = l->l_links > i ? l->l_links : i;
+	l->blocks += tmp->blocks;
 }
 
 static void		fill_protec(char *protec, t_file *tmp)
@@ -107,7 +109,7 @@ void			print_det(t_file *tmp, t_length *length)
 	fill_protec(protec, tmp);
 	protec[10] = '\0';
 	ft_printf("%s", protec, tmp->links);
-	while (++i < length->l_links - length_nbr(tmp->links))
+	while (++i < length->l_links - length_nbr(tmp->links) + 2)
 		ft_printf(" ");
 	ft_printf("%d %s", tmp->links, tmp->pw_name);
 	i = -1;

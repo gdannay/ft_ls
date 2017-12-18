@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 10:30:17 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/16 17:30:25 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/18 10:40:00 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct		s_file
 	int				ctime;
 	unsigned char	type;
 	char			*d_link;
+	int				blocks;
 	struct s_file	*next;
 }					t_file;
 
@@ -58,6 +59,7 @@ typedef struct		s_length
 	int				l_pwname;
 	int				l_grpname;
 	int				l_size;
+	int				blocks;
 }					t_length;
 
 t_file				*parse_rep(DIR *rep, char *dir, int flag, t_length *length);
@@ -65,7 +67,7 @@ int					check_flag(char *str);
 int					check_args(int ac, char **av);
 char				*joindir(char *dir, char *name);
 char				*manage_path(char *str, char **rest);
-int					display_file(t_file *file, int flag, t_length *length);
+int					display_file(t_file *file, int flag, t_length *length, int files);
 int					lstlen(t_file *file);
 void				delete_file(t_file **file, t_file *del);
 int					usage(int flag);

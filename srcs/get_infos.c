@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 10:58:11 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/16 17:24:54 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/18 10:52:36 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,22 @@ t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir, int flag)
 
 	if ((file_dir = joindir(dir, fichier->d_name)) == NULL)
 		return (NULL);
-	if(stat(file_dir, &fileStat) < 0)
-		return (NULL);
 	if ((file = (t_file *)malloc(sizeof(t_file))) == NULL)
 		return (NULL);
-	grp = getgrgid(fileStat.st_gid);
-	uid = getpwuid(fileStat.st_uid);
+	if (file->type == DT_LNK)
+	{
+		if(lstat(file_dir, &fileStat) < 0)
+			return (NULL);
+	}
+	else
+	{
+		if(stat(file_dir, &fileStat) < 0)
+			return (NULL);
+	}
 	file->name = ft_strdup(fichier->d_name);
 	file->type = fichier->d_type;
+	grp = getgrgid(fileStat.st_gid);
+	uid = getpwuid(fileStat.st_uid);
 	file->grp_name = ft_strdup(grp->gr_name);
 	file->pw_name = ft_strdup(uid->pw_name);
 	if (!(file->name) || !(file->grp_name) || !(file->pw_name))
@@ -43,6 +51,7 @@ t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir, int flag)
 	file->size = fileStat.st_size;
 	file->mtime = fileStat.st_mtime;
 	file->links = fileStat.st_nlink;
+	file->blocks = fileStat.st_blocks;
 	if (file->type == DT_LNK && (flag & F_L))
 	{
 		if ((path = joindir(dir, file->name)) == NULL)

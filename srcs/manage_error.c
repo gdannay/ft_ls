@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 12:06:20 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/16 17:47:12 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/18 10:40:36 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	manage_error(char **av, int flag, int i, int ac)
 	}
 	if (flag & F_L && file)
 	{
-		display_file(file, flag, length);
+		display_file(file, flag, length, 1);
 		if (get_last(av, ac, flag) != 0)
 			ft_printf("\n");
 	}

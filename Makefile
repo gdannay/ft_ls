@@ -6,7 +6,7 @@
 #    By: gdannay <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/15 10:22:09 by gdannay           #+#    #+#              #
-#    Updated: 2017/12/16 17:34:30 by gdannay          ###   ########.fr        #
+#    Updated: 2017/12/18 10:53:45 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ all		:	$(NAME)
 $(NAME)	:	$(OBJS)
 			make -C libft
 			make -C ft_printf
-			$(CC) -o $(NAME) $(OBJS) $(LDFLAGS)
+			$(CC) -o $(NAME) $(OBJS) $(LDFLAGS) -g3 -fsanitize=address
 			
 %.o		:	%.c
 			$(CC) -o $@ -c $< $(CFLAGS)
