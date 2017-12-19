@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 10:58:11 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 10:52:36 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/19 10:56:24 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,9 @@ t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir, int flag)
 		return (NULL);
 	if ((file = (t_file *)malloc(sizeof(t_file))) == NULL)
 		return (NULL);
-	if (file->type == DT_LNK)
-	{
-		if(lstat(file_dir, &fileStat) < 0)
-			return (NULL);
-	}
-	else
-	{
-		if(stat(file_dir, &fileStat) < 0)
-			return (NULL);
-	}
+	if(lstat(file_dir, &fileStat) < 0)
+		return (NULL);
+	file->protec = fileStat.st_mode;
 	file->name = ft_strdup(fichier->d_name);
 	file->type = fichier->d_type;
 	grp = getgrgid(fileStat.st_gid);
@@ -47,7 +40,6 @@ t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir, int flag)
 	file->pw_name = ft_strdup(uid->pw_name);
 	if (!(file->name) || !(file->grp_name) || !(file->pw_name))
 		return (NULL);
-	file->protec = fileStat.st_mode;
 	file->size = fileStat.st_size;
 	file->mtime = fileStat.st_mtime;
 	file->links = fileStat.st_nlink;
