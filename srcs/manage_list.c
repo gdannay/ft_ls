@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 20:00:17 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/16 17:26:14 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/19 18:07:56 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,23 @@ int			lstlen(t_file *file)
 	return (size);
 }
 
-void		delete_file(t_file **file, t_file *del)
+t_file		*delete_file(t_file *file, t_file *del)
 {
 	t_file	*tmp;
 
-	tmp = (*file);
-	if ((*file) == del)
-		(*file) = (*file)->next;
+	tmp = file;
+	if (file == del)
+		file = file->next;
 	else
 	{
 		while (tmp && tmp->next != del)
 			tmp = tmp->next;
 		tmp->next = del->next;
 	}
+	ft_strdel(&(del->name));
+	ft_strdel(&(del->grp_name));
+	ft_strdel(&(del->pw_name));
+	ft_strdel(&(del->d_link));
 	free(del);
+	return (file);
 }

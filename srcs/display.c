@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 18:25:50 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 13:21:37 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/19 19:08:22 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,17 @@ static int		namecmp(t_file *tmp, t_file *comp, int rev)
 	return (ft_strcmp(comp->name, tmp->name) * rev);
 }
 
-static void		display_f(t_file **file, int(*f)(t_file*, t_file*, int), int rev, t_length *length)
+char		*display_f(t_file **file, int(*f)(t_file*, t_file*, int), int flag, t_length *length)
 {
 	t_file	*tmp;
 	t_file	*comp;
+	char	*name;
+	int		rev;
 
 	tmp = *file;
 	comp = NULL;
+	name = NULL;
+	rev = (flag & F_R) ? -1 : 1;
 	if (tmp)
 		comp = tmp->next;
 	while (comp)
@@ -43,31 +47,42 @@ static void		display_f(t_file **file, int(*f)(t_file*, t_file*, int), int rev, t
 		print_det(tmp, length);
 	else
 		ft_printf("%s\n", tmp->name);
-	delete_file(file, tmp);
+	if ((flag & F_BR) && tmp->type == DT_DIR)
+		name = ft_strdup(tmp->name);
+	*file = delete_file(*file, tmp);
+	return (name);
 }
 
-int		display_file(t_file *file, int flag, t_length *length, int files)
+t_rep	*display_file(t_file *file, int flag, t_length *length, int files)
 {
 	int		size;
 	int		j;
-	int		rev;
+	t_rep	*first;
+	t_rep	*tmp;
+	char	*name;
 
 	j = 0;
-	if (flag & F_R)
-		rev = -1;
-	else
-		rev = 1;
 	size = lstlen(file);
-	files = 0;
-	if (flag & F_L && !(files) && length)
+	first = NULL;
+	name = NULL;
+	tmp = NULL;
+	if (flag & F_L && !(files) && length && size)
 		ft_printf("total %d\n", length->blocks);
 	while (j < size)
 	{
 		if (flag & F_T)
-			display_f(&file, &timecmp, rev, length);
+			name = display_f(&file, &timecmp, flag, length);
 		else
-			display_f(&file, &namecmp, rev, length);
+			name = display_f(&file, &namecmp, flag, length);
+		if ((flag & F_BR) && name)
+		{
+			if ((tmp = keep_rep(name, &first, tmp)) == NULL)
+				return (NULL);
+		}	
+		ft_strdel(&name);
 		j++;
-	}	
-	return (0);
+	}
+	if (length)
+		free(length);
+	return (first);
 }

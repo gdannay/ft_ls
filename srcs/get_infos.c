@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 10:58:11 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/19 10:56:24 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/19 18:53:07 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,27 @@ t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir, int flag)
 		return (NULL);
 	if(lstat(file_dir, &fileStat) < 0)
 		return (NULL);
-	file->protec = fileStat.st_mode;
 	file->name = ft_strdup(fichier->d_name);
-	file->type = fichier->d_type;
-	grp = getgrgid(fileStat.st_gid);
-	uid = getpwuid(fileStat.st_uid);
-	file->grp_name = ft_strdup(grp->gr_name);
-	file->pw_name = ft_strdup(uid->pw_name);
-	if (!(file->name) || !(file->grp_name) || !(file->pw_name))
-		return (NULL);
-	file->size = fileStat.st_size;
 	file->mtime = fileStat.st_mtime;
+	file->type = fichier->d_type;
+	file->size = fileStat.st_size;
 	file->links = fileStat.st_nlink;
 	file->blocks = fileStat.st_blocks;
+	if (flag & F_L)
+	{
+		grp = getgrgid(fileStat.st_gid);
+		uid = getpwuid(fileStat.st_uid);
+		file->protec = fileStat.st_mode;
+		file->grp_name = ft_strdup(grp->gr_name);
+		file->pw_name = ft_strdup(uid->pw_name);
+		if (!(file->name) || !(file->grp_name) || !(file->pw_name))
+			return (NULL);
+	}
+	else
+	{
+		file->grp_name = NULL;
+		file->pw_name = NULL;
+	}
 	if (file->type == DT_LNK && (flag & F_L))
 	{
 		if ((path = joindir(dir, file->name)) == NULL)
@@ -59,6 +67,7 @@ t_file	*get_file(struct dirent* fichier, t_file *tmp, char *dir, int flag)
 	file->next = NULL;
 	if (tmp != NULL)
 		tmp->next = file;
+	ft_strdel(&(file_dir));
 	return (file);
 }
 
@@ -88,5 +97,7 @@ t_file			*parse_rep(DIR *rep, char *dir, int flag, t_length *length)
 				compute_length(length, tmp);
 		}
 	}
+	if (closedir(rep) == -1)
+		return (NULL);
 	return (file);
 }

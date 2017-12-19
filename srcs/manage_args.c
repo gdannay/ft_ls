@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 12:23:25 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 13:53:35 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/19 18:51:13 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ struct dirent	*check_file(char *path, char *file, char *error)
 	fichier = readdir(rep);
 	while (fichier && ft_strcmp(fichier->d_name, file) != 0)
 		fichier = readdir(rep);
+	if (closedir(rep) == -1)
+		return (NULL);
 	if (fichier == NULL)
 	{
 		ft_printf("ls: %s: ", error);
@@ -101,6 +103,7 @@ static int		manage_args(char *av, int flag, int several)
 	rest = NULL;
 	path = NULL;
 	length = NULL;
+	file = NULL;
 	if (flag & F_L)
 	{
 		if ((length = create_l()) == NULL)
@@ -115,14 +118,15 @@ static int		manage_args(char *av, int flag, int several)
 		ft_strdel(&path);
 		ft_strdel(&rest);
 	}
-	else if (av && (rep = opendir(av)) != NULL)
+	else if (av && rep)
 	{
 		if (several)
 			ft_printf("%s:\n", av);
 		file = parse_rep(rep, av, flag, length);
-		display_file(file, flag, length, 0);
-		if (closedir(rep) == -1)
-			return (0);
+		if (flag & F_BR)
+			display_bigr(file, flag, length, av);
+		else
+			display_file(file, flag, length, 0);
 	}
 	return (1);
 }
@@ -143,8 +147,9 @@ int		check_args(int ac, char **av)
 	}
 	if (av[i] == NULL)
 	{
-		manage_args(".", flag, 0);
-		return (0);
+		if ((manage_args(".", flag, 0)) == 0)
+			return (0);
+		return (1);
 	}
 	if (manage_error(av, flag, i, ac) == 0)
 		return (0);
@@ -157,8 +162,8 @@ int		check_args(int ac, char **av)
 		if (manage_args(av[i], flag, ac - 3 + !(flag)) == 0)
 			return (0);
 		if (i < last && av[i])
-			printf("\n");
+			ft_printf("\n");
 		i++;
 	}
-	return (0);
+	return (1);
 }

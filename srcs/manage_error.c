@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 12:06:20 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 14:03:45 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/19 18:22:50 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int		manage_error(char **av, int flag, int i, int ac)
 	{
 		if ((rep = opendir(av[i])) == NULL)
 		{
-					dprintf(1,"ICI %d %s\n", ft_strcmp(rest, ""), av[i]);
 			if ((path = manage_path(av[i], &rest)) == NULL)
 				return (0);
 			if ((fichier = check_file(path, rest, av[i])) == NULL)
@@ -71,6 +70,8 @@ int		manage_error(char **av, int flag, int i, int ac)
 			ft_strdel(&path);
 			ft_strdel(&rest);
 		}
+		else if (rep && closedir(rep) == -1)
+			return (0);
 	}
 	if (flag & F_L && file)
 	{
@@ -78,5 +79,7 @@ int		manage_error(char **av, int flag, int i, int ac)
 		if (get_last(av, ac, flag) != 0)
 			ft_printf("\n");
 	}
+	if (flag & F_L)
+		free(length);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 12:17:51 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 10:47:18 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/19 19:04:56 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,6 @@ void			print_det(t_file *tmp, t_length *length)
 	print_time(tmp);
 	ft_printf(" %s", tmp->name);
 	if (tmp->type == DT_LNK)
-	{
 		ft_printf(" -> %s", tmp->d_link);
-		ft_strdel(&(tmp->d_link));
-	}
 	ft_printf("\n");
 }

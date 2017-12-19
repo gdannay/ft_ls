@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 10:30:17 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 13:49:29 by gdannay          ###   ########.fr       */
+/*   Updated: 2017/12/19 18:06:48 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,6 @@
 # include <pwd.h>
 # include <time.h>
 
-typedef struct		s_rep
-{
-	struct s_file	*infos;
-	struct s_rep	*sub;
-	struct s_rep	*next;
-}					t_rep;
-
 typedef struct		s_file
 {
 	char			*name;
@@ -53,6 +46,13 @@ typedef struct		s_file
 	struct s_file	*next;
 }					t_file;
 
+typedef struct		s_rep
+{
+	char			*name;
+	struct s_rep	*sub;
+	struct s_rep	*next;
+}					t_rep;
+
 typedef struct		s_length
 {
 	int				l_links;
@@ -67,9 +67,9 @@ int					check_flag(char *str);
 int					check_args(int ac, char **av);
 char				*joindir(char *dir, char *name);
 char				*manage_path(char *str, char **rest);
-int					display_file(t_file *file, int flag, t_length *length, int files);
+t_rep				*display_file(t_file *file, int flag, t_length *length, int files);
 int					lstlen(t_file *file);
-void				delete_file(t_file **file, t_file *del);
+t_file				*delete_file(t_file *file, t_file *del);
 int					usage(int flag);
 int					manage_error(char **av, int flag, int i, int ac);
 struct dirent		*check_file(char *path, char *file, char *error);
@@ -77,6 +77,9 @@ t_length			*create_l();
 void				print_det(t_file *tmp, t_length *length);
 void				compute_length(t_length *length, t_file *tmp);
 int					get_last(char **av, int ac, int flag);
+int					display_bigr(t_file *file, int flag, t_length *length, char *path);
 t_file				*get_file(struct dirent *fichier, t_file *tmp, char *dir, int flag);
+char				*display_f(t_file **file, int(*f)(t_file*, t_file*, int), int flag, t_length *length);
+t_rep				*keep_rep(char *name, t_rep **first, t_rep *tmp);
 
 #endif

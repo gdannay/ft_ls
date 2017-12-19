@@ -6,7 +6,7 @@
 #    By: gdannay <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/15 10:22:09 by gdannay           #+#    #+#              #
-#    Updated: 2017/12/18 13:17:44 by gdannay          ###   ########.fr        #
+#    Updated: 2017/12/19 17:58:56 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ SRCS	=	./srcs/ft_ls.c			\
 			./srcs/display.c		\
 			./srcs/manage_error.c	\
 			./srcs/manage_lflag.c	\
-			./srcs/manage_list.c
+			./srcs/manage_list.c	\
+			./srcs/display_bigr.c
 
 OBJS	=	$(SRCS:.c=.o)
 
@@ -34,7 +35,7 @@ all		:	$(NAME)
 $(NAME)	:	$(OBJS)
 			make -C libft
 			make -C ft_printf
-			$(CC) -o $(NAME) $(OBJS) $(LDFLAGS)
+			$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
 			
 %.o		:	%.c
 			$(CC) -o $@ -c $< $(CFLAGS)
