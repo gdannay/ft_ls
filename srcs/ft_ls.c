@@ -31,9 +31,9 @@ int		main(int ac, char **av)
 		dir = ft_strdup(".");
 		if ((rep = opendir(dir)) == NULL)
 			return (1);
+		if ((file = parse_rep(rep, dir, 0, NULL)) != NULL)
+			display_file(file, 0, NULL, 0);
 		ft_strdel(&dir);
-		file = parse_rep(rep, dir, 0, NULL);
-		display_file(file, 0, NULL, 0);
 	}
 	return (0);
 }
