@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "libft.h"
 
 static char		*manage_neg(t_flag *tmp, char *new, int taille, int n)
 {

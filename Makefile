@@ -26,15 +26,14 @@ OBJS	=	$(SRCS:.c=.o)
 
 CC		=	gcc
 
-CFLAGS	=	-Wall -Wextra -Werror -I./includes/
+CFLAGS	=	-Wall -Wextra -Werror -I./ -I./includes
 
-LDFLAGS	=	-L./libft -lft -L./ft_printf -lftprintf
+LDFLAGS	=	-L./libft -lft
 
 all		:	$(NAME)
 
 $(NAME)	:	$(OBJS)
 			make -C libft
-			make -C ft_printf
 			$(CC) $(OBJS) $(LDFLAGS) -o $(NAME)
 			
 %.o		:	%.c
@@ -42,12 +41,10 @@ $(NAME)	:	$(OBJS)
 
 clean	:	
 			make clean -C libft
-			make clean -C ft_printf
 			rm -rf $(OBJS)
 
 fclean	:	
 			make fclean -C libft
-			make fclean -C ft_printf
 			rm -rf $(OBJS)
 			rm -rf $(NAME)
 

@@ -82,8 +82,20 @@ SRCS	=		ft_memset.c		\
 				ft_chartostr.c	\
 				ft_lennbr.c		\
 				ft_atoi_base.c	\
-				ft_wstrlen.c
-					
+				ft_wstrlen.c	\
+				ft_printf.c		\
+				ft_printflib.c	\
+				manage_flag.c	\
+				check_wp.c		\
+				manage_buff.c	\
+				display.c		\
+				ltoa_base.c		\
+				display_type.c	\
+				display_flag.c	\
+				display_wps.c	\
+				display_uni.c	\
+				display_wstr.c
+
 CC		=		gcc
 
 OBJS	=		$(SRCS:.c=.o)

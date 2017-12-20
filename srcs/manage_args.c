@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include "ft_printf.h"
-#include "libft.h"
 
 int		get_last(char **av, int ac, int flag)
 {
@@ -68,13 +66,13 @@ struct dirent	*check_file(char *path, char *file, char *error)
 
 	if (ft_strcmp(error, "") == 0)
 	{
-		ft_printf("ls: fts_open: ");
+		ft_printf("ft_ls: fts_open: ");
 		perror("");
 		return (NULL);
 	}
 	if ((rep = opendir(path)) == NULL)
 	{
-		ft_printf("ls: %s: ", error);
+		ft_printf("ft_ls: %s: ", error);
 		perror("");
 		return (NULL);
 	}
@@ -85,7 +83,7 @@ struct dirent	*check_file(char *path, char *file, char *error)
 		return (NULL);
 	if (fichier == NULL)
 	{
-		ft_printf("ls: %s: ", error);
+		ft_printf("ft_ls: %s: ", error);
 		perror("");
 		return (NULL);
 	}

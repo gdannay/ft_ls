@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include "ft_ls.h"
 
 t_rep		*keep_rep(char *name, t_rep **first, t_rep *tmp)
@@ -47,7 +46,7 @@ int		algo(t_rep *rep, int flag, char *path)
 	t_file	*file;
 	DIR		*repo;
 	t_length	*length;
-	
+
 	length = NULL;
 	if (rep == NULL)
 		return (0);
@@ -56,15 +55,15 @@ int		algo(t_rep *rep, int flag, char *path)
 	if ((new_path = joindir(path, rep->name)) == NULL)
 		return (0);
 	if ((repo = opendir(new_path)) == NULL)
-	{
 		check_file(new_path, NULL, new_path);
-		return (0);
+	else if (repo)
+	{
+		ft_printf("\n%s:\n", new_path);
+		if ((file = parse_rep(repo, new_path, flag, length)) == NULL)
+			free(length);
+		if (file && (sub = display_file(file, flag, length, 0)))
+			algo(sub, flag, new_path);
 	}
-	ft_printf("\n%s:\n", new_path);
-	if ((file = parse_rep(repo, new_path, flag, length)) == NULL)
-		free(length);
-	if (file && (sub = display_file(file, flag, length, 0)))
-		algo(sub, flag, new_path);
 	rep = delete_rep(rep);
 	algo(rep, flag, path);
 	ft_strdel(&new_path);

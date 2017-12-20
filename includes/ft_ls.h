@@ -28,6 +28,7 @@
 # include <grp.h>
 # include <pwd.h>
 # include <time.h>
+# include "../libft/libft.h"
 
 typedef struct		s_file
 {

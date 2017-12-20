@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-#include "ft_printf.h"
-#include "libft.h"
 
 static int		timecmp(t_file *tmp, t_file *comp, int rev)
 {
