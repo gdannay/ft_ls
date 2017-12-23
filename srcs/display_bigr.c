@@ -19,7 +19,6 @@ t_rep		*keep_rep(char *name, t_rep **first, t_rep *tmp)
 	if ((rep = (t_rep *)malloc(sizeof(t_rep))) == NULL)
 		return (NULL);
 	rep->name = ft_strdup(name);
-	rep->sub = NULL;
 	rep->next = NULL;
 	if (*first == NULL)
 		(*first) = rep;

@@ -28,7 +28,7 @@ CC		=	gcc
 
 CFLAGS	=	-Wall -Wextra -Werror -I./ -I./includes
 
-LDFLAGS	=	-L./libft -lft
+LDFLAGS	=	libft/libft.a
 
 all		:	$(NAME)
 

@@ -50,7 +50,6 @@ typedef struct		s_file
 typedef struct		s_rep
 {
 	char			*name;
-	struct s_rep	*sub;
 	struct s_rep	*next;
 }					t_rep;
 

@@ -72,7 +72,7 @@ t_rep	*display_file(t_file *file, int flag, t_length *length, int files)
 			name = display_f(&file, &timecmp, flag, length);
 		else
 			name = display_f(&file, &namecmp, flag, length);
-		if ((flag & F_BR) && name)
+		if ((flag & F_BR) && name && ft_strcmp(name, ".") && ft_strcmp(name, ".."))
 		{
 			if ((tmp = keep_rep(name, &first, tmp)) == NULL)
 				return (NULL);

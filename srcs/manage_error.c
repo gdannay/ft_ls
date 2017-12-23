@@ -44,13 +44,7 @@ int		manage_error(char **av, int flag, int i, int ac)
 			if ((path = manage_path(av[i], &rest)) == NULL)
 				return (0);
 			if ((fichier = check_file(path, rest, av[i])) == NULL)
-			{
-				if (ft_strcmp(rest, "") == 0)
-				{
-					return (0);
-				}
 				av[i] = NULL;
-			}
 			else if (flag & F_L)
 			{
 				if (file == NULL)
