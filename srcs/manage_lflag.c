@@ -107,7 +107,7 @@ void			print_det(t_file *tmp, t_length *length)
 	fill_protec(protec, tmp);
 	protec[10] = '\0';
 	ft_printf("%s", protec, tmp->links);
-	while (++i < length->l_links - length_nbr(tmp->links) + 2)
+	while (++i < length->l_links - length_nbr(tmp->links) + 1)
 		ft_printf(" ");
 	ft_printf("%d %s", tmp->links, tmp->pw_name);
 	i = -1;
