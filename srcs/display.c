@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 18:25:50 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/19 19:08:22 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 20:17:28 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int		namecmp(t_file *tmp, t_file *comp, int rev)
 	return (ft_strcmp(comp->name, tmp->name) * rev);
 }
 
-char		*display_f(t_file **file, int(*f)(t_file*, t_file*, int), int flag, t_length *length)
+char			*display_f(t_file **file, int (*f)(t_file*, t_file*, int),
+		int flag, t_length *length)
 {
 	t_file	*tmp;
 	t_file	*comp;
@@ -51,36 +52,39 @@ char		*display_f(t_file **file, int(*f)(t_file*, t_file*, int), int flag, t_leng
 	return (name);
 }
 
-t_rep	*display_file(t_file *file, int flag, t_length *length, int files)
+static t_rep	*parse_list(t_file *file, int flag, t_length *length, int size)
 {
-	int		size;
 	int		j;
 	t_rep	*first;
 	t_rep	*tmp;
 	char	*name;
 
 	j = 0;
-	size = lstlen(file);
 	first = NULL;
-	name = NULL;
 	tmp = NULL;
-	if (flag & F_L && !(files) && length && size)
-		ft_printf("total %d\n", length->blocks);
 	while (j < size)
 	{
 		if (flag & F_T)
 			name = display_f(&file, &timecmp, flag, length);
 		else
 			name = display_f(&file, &namecmp, flag, length);
-		if ((flag & F_BR) && name && ft_strcmp(name, ".") && ft_strcmp(name, ".."))
-		{
-			if ((tmp = keep_rep(name, &first, tmp)) == NULL)
-				return (NULL);
-		}	
+		if ((flag & F_BR) && name
+				&& ft_strcmp(name, ".")
+				&& ft_strcmp(name, "..")
+				&& (tmp = keep_rep(name, &first, tmp)) == NULL)
+			return (NULL);
 		ft_strdel(&name);
 		j++;
 	}
 	if (length)
 		free(length);
 	return (first);
+}
+
+t_rep			*display_file(t_file *file, int flag,
+		t_length *length, int files)
+{
+	if (flag & F_L && !(files) && length && file)
+		ft_printf("total %d\n", length->blocks);
+	return (parse_list(file, flag, length, lstlen(file)));
 }

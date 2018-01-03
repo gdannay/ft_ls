@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/21 15:24:19 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/13 18:08:14 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 20:00:44 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int			size_hexa(long long n)
 
 int			display_0(t_flag *tmp, char *c, char *buff)
 {
-	int		i;
-	int l;
+	int	i;
+	int	l;
 
 	i = 0;
 	l = 0;

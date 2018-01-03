@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 10:49:20 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/19 19:13:35 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 19:54:40 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		main(int ac, char **av)
 {
-	DIR*	rep;
+	DIR		*rep;
 	t_file	*file;
 	char	*dir;
 
@@ -33,5 +33,6 @@ int		main(int ac, char **av)
 			display_file(file, 0, NULL, 0);
 		ft_strdel(&dir);
 	}
+	while (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 11:13:23 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/13 19:02:56 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 20:29:05 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,20 @@ int			display_width(char *buff, t_flag *tmp, int index)
 	if ((int)ft_strlen(buff) - index < tmp->width)
 	{
 		if (tmp->minus == 1)
-			return (add_char_left(buff, ' ', &index, (size_t)tmp->width - ft_strlen(buff) + index));
+			return (add_char_left(buff, ' ', &index,
+						(size_t)tmp->width - ft_strlen(buff) + index));
 		else if (tmp->zero == 1)
 		{
 			if (tmp->type == 'p')
-				return (add_char_left(buff, '0', &index, (size_t)tmp->width - ft_strlen(buff) + index));
+				return (add_char_left(buff, '0', &index,
+							(size_t)tmp->width - ft_strlen(buff) + index));
 			else
-				return (add_char_right(buff, '0', index, (size_t)tmp->width - ft_strlen(buff) + index));
+				return (add_char_right(buff, '0', index,
+							(size_t)tmp->width - ft_strlen(buff) + index));
 		}
 		else
-			return (add_char_right(buff, ' ', index, (size_t)tmp->width - ft_strlen(buff) + index));
+			return (add_char_right(buff, ' ',
+						index, (size_t)tmp->width - ft_strlen(buff) + index));
 	}
 	return (0);
 }
@@ -53,7 +57,7 @@ static int	display_plus(char *buff, t_flag *tmp, int index)
 	return (0);
 }
 
-static int		correction_neg(char *buff, t_flag *tmp, int index)
+static int	correction_neg(char *buff, t_flag *tmp, int index)
 {
 	int i;
 
@@ -89,7 +93,8 @@ int			correction_sign(char *buff, t_flag *tmp, int index)
 			return (correction_neg(buff, tmp, index));
 		else if (tmp->nb >= 0 && tmp->plus == 1)
 			return (display_plus(buff, tmp, index));
-		else if (tmp->space && tmp->nb >= 0 && tmp->width <= (int)ft_strlen(buff) - index)
+		else if (tmp->space && tmp->nb >= 0 &&
+				tmp->width <= (int)ft_strlen(buff) - index)
 			return (add_right(buff, " ", index, 1));
 	}
 	return (0);

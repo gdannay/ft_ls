@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/11 10:50:28 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/13 19:13:15 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 20:26:35 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,21 @@ static char		*manage_tmptxt(t_flag *tmp)
 		return (NULL);
 	return (tmptxt);
 }
-//leaks !!!
+
+static void		get_rep(t_flag *tmp, int *rep, int i)
+{
+	char	*tmptxt;
+
+	tmp->nb = tmp->wst[i];
+	if ((tmptxt = ltoa_base(tmp, BINA)) == NULL)
+		return ;
+	*rep = *rep + compute_rep(tmptxt) - 1;
+	ft_strdel(&tmptxt);
+}
+
 int				manage_wstring(t_flag *tmp, char *buff)
 {
 	char	*new;
-	char	*t2;
 	int		i;
 	int		rep;
 	int		l;
@@ -102,13 +112,7 @@ int				manage_wstring(t_flag *tmp, char *buff)
 	if (tmp->wst == NULL)
 		return (display_flag(new, tmp, buff));
 	while (new[++i] && tmp->wst[i] != '\0')
-	{
-		tmp->nb = tmp->wst[i];
-		if ((t2 = ltoa_base(tmp, BINA)) == NULL)
-			return (0);
-		rep += compute_rep(t2) - 1;
-		ft_strdel(&t2);
-	}
+		get_rep(tmp, &rep, i);
 	l += print_buff(buff);
 	tmp->width -= rep;
 	l += manage_buff(buff, new, ft_strlen(new));

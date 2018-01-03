@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/01 10:23:15 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/13 19:10:57 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 20:47:38 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,30 @@
 
 int			display_precision(char *buff, t_flag *tmp, int index)
 {
+	int length;
+
+	length = 0;
 	if (tmp->nb < 0 && tmp->precision > 0)
 		tmp->precision = tmp->precision + 1;
 	if (tmp->precision >= 0 && (tmp->intdisplay == 1 || tmp->intdisplay == 6))
 		tmp->zero = 0;
 	if ((int)ft_strlen(buff) - index < tmp->precision
 			&& (tmp->intdisplay == 1 || tmp->intdisplay == 6))
-		return (add_char_right(buff, '0', index, tmp->precision - (int)ft_strlen(buff) + index));
-	return (0);
+		length = add_char_right(buff, '0', index,
+					tmp->precision - (int)ft_strlen(buff) + index);
+	return (length);
 }
 
 static int	display_hash_blank(char *buff, t_flag *tmp, int index)
 {
-	{
-		if (tmp->type == 'x' || tmp->type == 'p')
-			return (add_right(buff, "0x", index, 2));
-		else if (tmp->type == 'X')
-			return (add_right(buff, "0X", index, 2));
-		else if ((tmp->type == 'o' || tmp->type == 'O')
-				&& ((int)ft_strlen(buff) - index < tmp->precision
-					|| tmp->precision <= 0))
-			return (add_right(buff, "0", index, 1));
-	}
+	if (tmp->type == 'x' || tmp->type == 'p')
+		return (add_right(buff, "0x", index, 2));
+	else if (tmp->type == 'X')
+		return (add_right(buff, "0X", index, 2));
+	else if ((tmp->type == 'o' || tmp->type == 'O')
+			&& ((int)ft_strlen(buff) - index < tmp->precision
+				|| tmp->precision <= 0))
+		return (add_right(buff, "0", index, 1));
 	return (0);
 }
 

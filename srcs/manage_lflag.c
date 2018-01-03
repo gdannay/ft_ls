@@ -6,13 +6,13 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 12:17:51 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/19 19:04:56 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 20:16:46 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_length		*create_l()
+t_length		*create_l(void)
 {
 	t_length	*length;
 
@@ -75,8 +75,8 @@ static void		fill_protec(char *protec, t_file *tmp)
 
 static void		print_time(t_file *tmp)
 {
-	char 	f_time[13];
-	char 	*raw;
+	char	f_time[13];
+	char	*raw;
 	int		i;
 
 	i = -1;
@@ -87,12 +87,12 @@ static void		print_time(t_file *tmp)
 	if ((time(NULL) - tmp->mtime) > 15778800)
 	{
 		while (++i < 12)
-			f_time[i] = raw[i + 12];	
+			f_time[i] = raw[i + 12];
 	}
 	else
 	{
 		while (++i < 12)
-			f_time[i] = raw[i + 4];	
+			f_time[i] = raw[i + 4];
 	}
 	f_time[12] = '\0';
 	ft_printf("%s", f_time);
@@ -100,14 +100,14 @@ static void		print_time(t_file *tmp)
 
 void			print_det(t_file *tmp, t_length *length)
 {
-	char 	protec[11];
+	char	protec[11];
 	int		i;
 
 	i = -1;
 	fill_protec(protec, tmp);
 	protec[10] = '\0';
-	ft_printf("%s", protec, tmp->links);
-	while (++i < length->l_links - length_nbr(tmp->links) + 1)
+	ft_printf("%s", protec);
+	while (++i < length->l_links - length_nbr(tmp->links) + 2)
 		ft_printf(" ");
 	ft_printf("%d %s", tmp->links, tmp->pw_name);
 	i = -1;

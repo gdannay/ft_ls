@@ -6,13 +6,13 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 15:18:48 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/16 17:26:23 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 19:05:58 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-char	*joindir(char *dir, char *name)
+char		*joindir(char *dir, char *name)
 {
 	char	*file_dir;
 	size_t	l_d;
@@ -40,23 +40,31 @@ char	*joindir(char *dir, char *name)
 	return (file_dir);
 }
 
-char	*manage_path(char *str, char **rest)
+static int	last_slash(char *str)
 {
-	int		i;
-	int		j;
-	char 	*path;
-	char	*dir;
-	
+	int i;
+	int j;
+
 	i = 0;
 	j = 0;
-	if (str == NULL || rest == NULL)
-		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '/')
 			j = i;
 		i++;
 	}
+	return (j);
+}
+
+char		*manage_path(char *str, char **rest)
+{
+	int		j;
+	char	*path;
+	char	*dir;
+
+	j = last_slash(str);
+	if (str == NULL || rest == NULL)
+		return (NULL);
 	if (str[j] == '/')
 	{
 		if ((path = ft_strndup(str, j)) == NULL)

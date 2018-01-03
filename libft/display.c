@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 15:03:31 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/13 19:10:51 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 20:38:28 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,20 @@ static void		manage_undefined(char *str, int *i, t_flag *tmp)
 		tmp = tmp->next;
 }
 
+static int		print_arg(char *buff, t_flag **tmp, char *str, int *i)
+{
+	int length;
+
+	length = 0;
+	length = manage_display(*tmp, buff);
+	*i = *i + 1;
+	while (str[*i + 1] && str[*i] != (*tmp)->type)
+		*i = *i + 1;
+	*tmp = (*tmp)->next;
+	*i = *i + 1;
+	return (length);
+}
+
 int				display(char *str, t_flag *flag)
 {
 	int		i;
@@ -68,15 +82,8 @@ int				display(char *str, t_flag *flag)
 	while (str && str[i] != '\0')
 	{
 		if (str[i] == '%' && str[i + 1] && tmp->inttype != 0)
-		{
-			length += manage_display(tmp, buff);
-			i++;
-			while (str[i + 1] && str[i] != tmp->type)
-				i++;
-			tmp = tmp->next;
-			i++;
-		}
-		else if (str[i] == '%' && ((!tmp) ||tmp->inttype == 0))
+			length += print_arg(buff, &tmp, str, &i);
+		else if (str[i] == '%' && ((!tmp) || tmp->inttype == 0))
 			manage_undefined(str, &i, tmp);
 		else
 			length += display_normal(str, &i, buff);

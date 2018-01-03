@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/09 11:14:17 by gdannay           #+#    #+#             */
-/*   Updated: 2017/12/18 09:56:56 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 20:28:32 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,8 @@ static int		manage_wc(char *buff, t_flag *tmp, char *c, int rep)
 	l += display_width(buff, tmp, 1);
 	while (buff[i] != '\0')
 	{
-		if (buff[i] == 1)
-		{
-			if (ft_putuni(c, rep) == 0)
-				return (0);
-		}
+		if (buff[i] == 1 && ft_putuni(c, rep) == 0)
+			return (0);
 		else
 			ft_putchar(buff[i]);
 		i++;
@@ -127,11 +124,8 @@ int				manage_uni(t_flag *tmp, char *buff)
 		write(1, &(tmp->nb), 1);
 	else if (tmp->type == 'C' && (tmp->precision >= 0 || tmp->width >= 0))
 		l += manage_wc(buff, tmp, c, rep);
-	else
-	{
-		if ((ft_putuni(c, rep)) == 0)
-			return (0);
-	}
+	else if (ft_putuni(c, rep) == 0)
+		return (0);
 	ft_strdel(&c);
 	return (rep + l);
 }
