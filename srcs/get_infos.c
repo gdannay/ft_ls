@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 10:58:11 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/03 19:44:00 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 21:07:23 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ t_file		*get_file(struct dirent *fichier, t_file *tmp, char *dir, int flag)
 	file->grp_name = NULL;
 	file->pw_name = NULL;
 	file->next = NULL;
+	file->d_link = NULL;
 	if (flag & F_L && !(fill_details(filestat, file, dir)))
 		return (NULL);
 	if (tmp != NULL)

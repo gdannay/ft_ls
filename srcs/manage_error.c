@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 12:06:20 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/03 20:16:51 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 21:04:14 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int				manage_error(char **av, int flag, int i, int ac)
 			return (0);
 		else if (rep && closedir(rep) == -1)
 			return (0);
-		compute_length(length, tmp);
+		if (flag & F_L)
+			compute_length(length, tmp);
 	}
 	if (flag & F_L && file)
 	{

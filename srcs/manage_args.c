@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 12:23:25 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/03 20:16:59 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/03 21:37:16 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,8 @@ static int		manage_args(char *av, int flag, int several)
 	t_length	*length;
 
 	length = NULL;
-	if (flag & F_L)
-	{
-		if ((length = create_l()) == NULL)
-			return (0);
-	}
+	if (flag & F_L && (length = create_l()) == NULL)
+		return (0);
 	if (av && (rep = opendir(av)) == NULL
 			&& openfail(av, length) == 0)
 		return (0);
@@ -59,14 +56,10 @@ static int		manage_args(char *av, int flag, int several)
 	return (1);
 }
 
-static int		parse_args(char **av, int ac, int flag)
+static int		parse_args(char **av, int ac, int flag, int i)
 {
-	int	i;
 	int	last;
 
-	i = 1;
-	while (av[i] && av[i][0] == '-')
-		i++;
 	last = get_last(av, ac, flag);
 	while (i < ac)
 	{
@@ -100,7 +93,7 @@ int				check_args(int ac, char **av)
 	}
 	if (manage_error(av, flag, i - 1, ac) == 0)
 		return (0);
-	if (parse_args(av, ac, flag) == 0)
+	if (parse_args(av, ac, flag, i) == 0)
 		return (0);
 	return (1);
 }
