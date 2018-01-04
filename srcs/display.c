@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 18:25:50 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 12:13:01 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 16:51:09 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char			*display_f(t_file **file, int (*f)(t_file*, t_file*, int),
 		comp = tmp->next;
 	while (comp)
 	{
-		if ((*f)(tmp, comp, rev) < 0)
+		if ((*f)(tmp, comp, rev) <= 0)
 			tmp = comp;
 		comp = comp->next;
 	}

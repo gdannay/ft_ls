@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 10:30:17 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 14:14:19 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 16:57:38 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define F_BR 4
 # define F_T 8
 # define F_A 16
+# define F_C 16
 
 # include <stdlib.h>
 # include <stdio.h>
