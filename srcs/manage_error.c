@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 12:06:20 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 16:45:50 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 19:15:42 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int				usage(int flag)
 {
-	ft_printf("ls: illegal option -- %c\n", flag * -1);
+	ft_printf("ft_ls: illegal option -- %c\n", flag * -1);
 	write(2, "usage: ls [-Ralrt] [file ...]\n", 30);
 	return (0);
 }
@@ -65,6 +65,7 @@ int				manage_error(char **av, int flag, int i, int ac)
 
 	file = NULL;
 	length = NULL;
+	tmp = NULL;
 	if ((flag & F_L) && (length = create_l()) == NULL)
 		return (0);
 	while (++i < ac)
@@ -72,13 +73,13 @@ int				manage_error(char **av, int flag, int i, int ac)
 		if ((rep = opendir(av[i])) == NULL
 				&& manage_fail(&(av[i]), flag, &file, &tmp) == 0)
 			return (0);
-		if (rep == NULL && (flag & F_L))
+		if (tmp && rep == NULL && (flag & F_L))
 			compute_length(length, tmp);
 		else if (rep && closedir(rep) == -1)
 			return (0);
 	}
 	if (file)
-		print_det_files(file, flag, &length, get_last(av, ac, flag));
+		print_det_files(file, flag, &length, get_last(av, ac));
 	if (length)
 		free(length);
 	return (1);

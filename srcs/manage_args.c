@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 12:23:25 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 14:31:23 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 19:05:33 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,35 @@ static int		manage_args(char *av, int flag, int several)
 	return (1);
 }
 
-static int		parse_args(char **av, int ac, int flag, int i)
+static int		order_alpha(char **av, int ac, int i)
 {
-	int	last;
+	int	index;
 
-	last = get_last(av, ac, flag);
+	index = 0;
 	while (i < ac)
 	{
-		if (av[i] && manage_args(av[i], flag, ac - 3 + !(flag)) == 0)
+		if (av[i] && index == 0)
+			index = i;
+		if (av[index] && av[i] && ft_strcmp(av[i], av[index]) < 0)
+			index = i;
+		i++;
+	}
+	return (index);
+}
+
+static int		parse_args(char **av, int ac, int flag, int i)
+{
+	int		j;
+	int		index;
+
+	j = i;
+	index = 1;
+	while ((index = order_alpha(av, ac, j)))
+	{
+		if (av[index] && manage_args(av[index], flag, ac - 3 + !(flag)) == 0)
 			return (0);
-		if (i < last && av[i])
+		av[index] = NULL;
+		if (get_last(av, ac))
 			ft_printf("\n");
 		i++;
 	}
@@ -83,14 +102,15 @@ int				check_args(int ac, char **av)
 			return (fts_error());
 	}
 	i = 0;
-	while (av[++i] && av[i][0] == '-')
+	while (av[++i] && av[i][0] == '-' && av[i][1])
 	{
-		if ((flag = flag | check_flag(av[i])) < 0)
+		if ((flag = check_flag(av[i], flag)) < 0)
 			return (usage(flag));
+		av[i] = NULL;
 	}
 	if (av[i] == NULL)
 		return (manage_args(".", flag, 0) == 0 ? 0 : 1);
-	if (manage_error(av, flag, i - 1, ac) == 0)
+	if (manage_error(av, flag, 1, ac) == 0)
 		return (0);
 	if (parse_args(av, ac, flag, i) == 0)
 		return (0);

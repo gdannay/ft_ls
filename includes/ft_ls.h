@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 10:30:17 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 16:57:38 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 19:16:15 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # define F_BR 4
 # define F_T 8
 # define F_A 16
-# define F_C 16
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -64,7 +63,6 @@ typedef struct		s_length
 }					t_length;
 
 t_file				*parse_rep(DIR *rep, char *dir, int flag, t_length *length);
-int					check_flag(char *str);
 int					check_args(int ac, char **av);
 char				*joindir(char *dir, char *name);
 char				*manage_path(char *str, char **rest);
@@ -78,7 +76,6 @@ struct dirent		*check_file(char *path, char *file, char *error);
 t_length			*create_l();
 void				print_det(t_file *tmp, t_length *length);
 void				compute_length(t_length *length, t_file *tmp);
-int					get_last(char **av, int ac, int flag);
 int					display_bigr(t_file *file, int flag,
 					t_length **length, char *path);
 t_file				*get_file(struct dirent *fichier, t_file *tmp,
@@ -87,8 +84,8 @@ char				*display_f(t_file **file,
 					int(*f)(t_file*, t_file*, int), int flag, t_length *length);
 t_rep				*keep_rep(char *name, t_rep **first, t_rep *tmp);
 t_rep				*delete_rep(t_rep *first);
-int					get_last(char **av, int ac, int flag);
-int					check_flag(char *str);
+int					get_last(char **av, int a);
+int					check_flag(char *str, int first);
 int					algo(t_rep *rep, int flag, char *path);
 int					fts_error(void);
 

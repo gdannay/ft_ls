@@ -6,32 +6,27 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 16:59:31 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 16:58:25 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 18:50:31 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int						get_last(char **av, int ac, int flag)
+int						get_last(char **av, int ac)
 {
 	int i;
-	int j;
 
-	if (flag > 0)
-		i = 2;
-	else
-		i = 1;
-	j = 0;
+	i = 1;
 	while (i < ac)
 	{
 		if (av[i] != NULL)
-			j = i;
+			return (1);
 		i++;
 	}
-	return (j);
+	return (0);
 }
 
-int						check_flag(char *str)
+int						check_flag(char *str, int first)
 {
 	int	i;
 	int	flag;
@@ -55,7 +50,7 @@ int						check_flag(char *str)
 	}
 	if (str[i] != '\0')
 		return (str[i] * -1);
-	return (flag);
+	return (flag | first);
 }
 
 int						fts_error(void)
