@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 18:25:50 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 16:51:09 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 17:29:13 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,11 @@ t_rep			*display_file(t_file *file, int flag,
 
 	if (flag & F_L && !(files) && *length && file)
 		ft_printf("total %d\n", (*length)->blocks);
-	first = parse_list(file, flag, *length, lstlen(file));
-	if (*length)
+	if (length)
+		first = parse_list(file, flag, *length, lstlen(file));
+	else
+		first = parse_list(file, flag, NULL, lstlen(file));
+	if (length && *length)
 	{
 		free(*length);
 		*length = NULL;
