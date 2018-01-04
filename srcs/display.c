@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 18:25:50 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/03 21:06:14 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 12:13:01 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,21 @@ static t_rep	*parse_list(t_file *file, int flag, t_length *length, int size)
 		ft_strdel(&name);
 		j++;
 	}
-	if (length)
-		free(length);
 	return (first);
 }
 
 t_rep			*display_file(t_file *file, int flag,
-		t_length *length, int files)
+		t_length **length, int files)
 {
-	if (flag & F_L && !(files) && length && file)
-		ft_printf("total %d\n", length->blocks);
-	return (parse_list(file, flag, length, lstlen(file)));
+	t_rep	*first;
+
+	if (flag & F_L && !(files) && *length && file)
+		ft_printf("total %d\n", (*length)->blocks);
+	first = parse_list(file, flag, *length, lstlen(file));
+	if (*length)
+	{
+		free(*length);
+		*length = NULL;
+	}
+	return (first);
 }

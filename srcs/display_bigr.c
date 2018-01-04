@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 11:50:35 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/03 20:54:54 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 12:59:04 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,11 @@ static int		parse_repo(char *new_path, DIR *repo, int flag)
 	t_file		*file;
 
 	length = NULL;
-	if (flag & F_L && (length = create_l()) == NULL)
+	if ((flag & F_L) && (length = create_l()) == NULL)
 		return (0);
-	if (new_path[0] && new_path[1] && new_path[0] == '/')
-		ft_printf("\n%s:\n", new_path + 1);
-	else
-		ft_printf("\n%s:\n", new_path);
 	if ((file = parse_rep(repo, new_path, flag, length)) == NULL)
 		free(length);
-	if (file && (sub = display_file(file, flag, length, 0)))
+	if (file && (sub = display_file(file, flag, &length, 0)))
 		algo(sub, flag, new_path);
 	return (1);
 }
@@ -67,8 +63,9 @@ int				algo(t_rep *rep, int flag, char *path)
 		return (0);
 	if ((new_path = joindir(path, rep->name)) == NULL)
 		return (0);
+	ft_printf("\n%s:\n", new_path);
 	if ((repo = opendir(new_path)) == NULL)
-		check_file(new_path, NULL, new_path);
+		check_file(new_path, NULL, rep->name);
 	else if (repo && parse_repo(new_path, repo, flag) == 0)
 		return (0);
 	rep = delete_rep(rep);
@@ -78,7 +75,7 @@ int				algo(t_rep *rep, int flag, char *path)
 }
 
 int				display_bigr(t_file *file, int flag,
-		t_length *length, char *path)
+		t_length **length, char *path)
 {
 	t_rep	*rep;
 

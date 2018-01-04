@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 10:30:17 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/03 20:49:33 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 14:14:19 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int					check_args(int ac, char **av);
 char				*joindir(char *dir, char *name);
 char				*manage_path(char *str, char **rest);
 t_rep				*display_file(t_file *file, int flag,
-					t_length *length, int files);
+					t_length **length, int files);
 int					lstlen(t_file *file);
 t_file				*delete_file(t_file *file, t_file *del);
 int					usage(int flag);
@@ -79,7 +79,7 @@ void				print_det(t_file *tmp, t_length *length);
 void				compute_length(t_length *length, t_file *tmp);
 int					get_last(char **av, int ac, int flag);
 int					display_bigr(t_file *file, int flag,
-					t_length *length, char *path);
+					t_length **length, char *path);
 t_file				*get_file(struct dirent *fichier, t_file *tmp,
 					char *dir, int flag);
 char				*display_f(t_file **file,
@@ -89,5 +89,6 @@ t_rep				*delete_rep(t_rep *first);
 int					get_last(char **av, int ac, int flag);
 int					check_flag(char *str);
 int					algo(t_rep *rep, int flag, char *path);
+int					fts_error(void);
 
 #endif

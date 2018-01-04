@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 15:18:48 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/03 19:05:58 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 14:33:41 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,21 @@
 char		*joindir(char *dir, char *name)
 {
 	char	*file_dir;
-	size_t	l_d;
-	size_t	l_n;
 	int		i;
 	int		j;
 
 	i = -1;
 	j = 0;
-	l_d = ft_strlen(dir);
-	l_n = ft_strlen(name);
-	if ((file_dir = (char *)malloc(sizeof(char) * (l_d + l_n + 2))) == NULL)
+	if ((file_dir = (char *)malloc(sizeof(char) *
+					(ft_strlen(dir) + ft_strlen(name) + 2))) == NULL)
 		return (NULL);
 	while (dir && dir[++i] != '\0')
 		file_dir[i] = dir[i];
-	file_dir[i] = '/';
-	i++;
+	if (i >= 0 && file_dir[i - 1] != '/')
+	{
+		file_dir[i] = '/';
+		i++;
+	}
 	while (name && name[j] != '\0')
 	{
 		file_dir[i] = name[j];

@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 16:59:31 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/03 20:55:13 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/04 14:27:53 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ int						check_flag(char *str)
 	return (flag);
 }
 
-static struct dirent	*print_error(char *error)
+int						fts_error(void)
 {
-	ft_printf("ft_ls: %s: ", error);
-	perror("");
-	return (NULL);
+	ft_printf("ft_ls: fts_open: No such file or directory\n");
+	return (0);
 }
 
 struct dirent			*check_file(char *path, char *file, char *error)
@@ -70,12 +69,6 @@ struct dirent			*check_file(char *path, char *file, char *error)
 	struct dirent	*fichier;
 	DIR				*rep;
 
-	if (ft_strcmp(error, "") == 0)
-	{
-		ft_printf("ft_ls: fts_open: ");
-		perror("");
-		return (NULL);
-	}
 	if ((rep = opendir(path)) == NULL)
 	{
 		ft_printf("ft_ls: %s: ", error);
@@ -88,6 +81,10 @@ struct dirent			*check_file(char *path, char *file, char *error)
 	if (closedir(rep) == -1)
 		return (NULL);
 	if (fichier == NULL)
-		return (print_error(error));
+	{
+		ft_printf("ft_ls: %s: ", error);
+		perror("");
+		return (NULL);
+	}
 	return (fichier);
 }
