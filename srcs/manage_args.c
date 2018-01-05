@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 12:23:25 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 19:05:33 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/05 10:33:09 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,18 @@ static int		order_alpha(char **av, int ac, int i)
 	return (index);
 }
 
-static int		parse_args(char **av, int ac, int flag, int i)
+static int		parse_args(char **av, int ac, int flag)
 {
-	int		j;
 	int		index;
 
-	j = i;
 	index = 1;
-	while ((index = order_alpha(av, ac, j)))
+	while ((index = order_alpha(av, ac, 1)))
 	{
 		if (av[index] && manage_args(av[index], flag, ac - 3 + !(flag)) == 0)
 			return (0);
 		av[index] = NULL;
 		if (get_last(av, ac))
 			ft_printf("\n");
-		i++;
 	}
 	return (1);
 }
@@ -110,9 +107,9 @@ int				check_args(int ac, char **av)
 	}
 	if (av[i] == NULL)
 		return (manage_args(".", flag, 0) == 0 ? 0 : 1);
-	if (manage_error(av, flag, 1, ac) == 0)
+	if (manage_error(av, flag, 0, ac) == 0)
 		return (0);
-	if (parse_args(av, ac, flag, i) == 0)
+	if (parse_args(av, ac, flag) == 0)
 		return (0);
 	return (1);
 }

@@ -1,37 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ls.c                                            :+:      :+:    :+:   */
+/*   cmp.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/15 10:49:20 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/05 11:00:33 by gdannay          ###   ########.fr       */
+/*   Created: 2018/01/05 11:12:51 by gdannay           #+#    #+#             */
+/*   Updated: 2018/01/05 11:13:55 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int		main(int ac, char **av)
+int		timecmp(t_file *tmp, t_file *comp, int rev)
 {
-	DIR		*rep;
-	t_file	*file;
-	char	*dir;
+	return ((tmp->mtime - comp->mtime) * rev);
+}
 
-	dir = NULL;
-	if (ac > 1)
-	{
-		if (check_args(ac, av) == 0)
-			return (1);
-	}
-	else
-	{
-		dir = ft_strdup(".");
-		if ((rep = opendir(dir)) == NULL)
-			return (1);
-		if ((file = parse_rep(rep, dir, 0, NULL)) != NULL)
-			display_file(file, 0, NULL, 0);
-		ft_strdel(&dir);
-	}
-	return (0);
+int		namecmp(t_file *tmp, t_file *comp, int rev)
+{
+	return (ft_strcmp(comp->name, tmp->name) * rev);
+}
+
+int		sizecmp(t_file *tmp, t_file *comp, int rev)
+{
+	return ((tmp->size - comp->size) * rev);
 }

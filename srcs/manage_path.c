@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 15:18:48 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 14:33:41 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/05 10:30:12 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	last_slash(char *str)
 
 	i = 0;
 	j = 0;
-	while (str[i])
+	while (str && str[i])
 	{
 		if (str[i] == '/')
 			j = i;

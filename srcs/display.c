@@ -6,20 +6,20 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/15 18:25:50 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 18:10:14 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/05 11:16:53 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int		timecmp(t_file *tmp, t_file *comp, int rev)
+static void		print_actual(t_length *length, t_file *tmp, int flag)
 {
-	return ((tmp->mtime - comp->mtime) * rev);
-}
-
-static int		namecmp(t_file *tmp, t_file *comp, int rev)
-{
-	return (ft_strcmp(comp->name, tmp->name) * rev);
+	if (length)
+		print_det(tmp, length, flag, -1);
+	else if ((flag & F_P) && tmp->type == DT_DIR)
+		ft_printf("%s/\n", tmp->name);
+	else
+		ft_printf("%s\n", tmp->name);
 }
 
 char			*display_f(t_file **file, int (*f)(t_file*, t_file*, int),
@@ -42,10 +42,7 @@ char			*display_f(t_file **file, int (*f)(t_file*, t_file*, int),
 			tmp = comp;
 		comp = comp->next;
 	}
-	if (length)
-		print_det(tmp, length);
-	else
-		ft_printf("%s\n", tmp->name);
+	print_actual(length, tmp, flag);
 	if ((flag & F_BR) && tmp->type == DT_DIR)
 		name = ft_strdup(tmp->name);
 	*file = delete_file(*file, tmp);
@@ -64,7 +61,9 @@ static t_rep	*parse_list(t_file *file, int flag, t_length *length, int size)
 	tmp = NULL;
 	while (j < size)
 	{
-		if (flag & F_T)
+		if (flag & F_S)
+			name = display_f(&file, &sizecmp, flag, length);
+		else if (flag & F_T)
 			name = display_f(&file, &timecmp, flag, length);
 		else
 			name = display_f(&file, &namecmp, flag, length);

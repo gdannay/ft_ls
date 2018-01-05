@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 12:17:51 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/03 20:54:59 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/05 11:11:05 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,10 @@ static void		print_time(t_file *tmp)
 	ft_printf("%s", f_time);
 }
 
-void			print_det(t_file *tmp, t_length *length)
+void			print_det(t_file *tmp, t_length *length, int flag, int i)
 {
 	char	protec[11];
-	int		i;
 
-	i = -1;
 	fill_protec(protec, tmp);
 	protec[10] = '\0';
 	ft_printf("%s", protec);
@@ -121,6 +119,8 @@ void			print_det(t_file *tmp, t_length *length)
 	ft_printf("  %d ", tmp->size);
 	print_time(tmp);
 	ft_printf(" %s", tmp->name);
+	if (tmp->type == DT_DIR && (flag & F_P))
+		ft_printf("/");
 	if (tmp->type == DT_LNK)
 		ft_printf(" -> %s", tmp->d_link);
 	ft_printf("\n");

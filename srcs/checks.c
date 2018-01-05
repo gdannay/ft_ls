@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/03 16:59:31 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 18:50:31 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/05 11:06:01 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@ int						get_last(char **av, int ac)
 	return (0);
 }
 
+static int				next_flag(char c)
+{
+	if (c == 'p')
+		return (F_P);
+	else if (c == 'S')
+		return (F_S);
+	else if (c == 'd')
+		return (F_D);
+	else if (c == 'a')
+		return (F_A);
+	return (0);
+}
+
 int						check_flag(char *str, int first)
 {
 	int	i;
@@ -34,7 +47,8 @@ int						check_flag(char *str, int first)
 	i = 1;
 	flag = 0;
 	while (str[i] == 'l' || str[i] == 'r' || str[i] == 'R'
-			|| str[i] == 't' || str[i] == 'a')
+			|| str[i] == 't' || str[i] == 'a' || str[i] == 'p'
+			|| str[i] == 'd' || str[i] == 'S')
 	{
 		if (str[i] == 'l')
 			flag = flag | F_L;
@@ -44,8 +58,8 @@ int						check_flag(char *str, int first)
 			flag = flag | F_BR;
 		else if (str[i] == 't')
 			flag = flag | F_T;
-		else if (str[i] == 'a')
-			flag = flag | F_A;
+		else
+			flag = flag | next_flag(str[i]);
 		i++;
 	}
 	if (str[i] != '\0')

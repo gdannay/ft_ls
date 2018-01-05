@@ -6,7 +6,7 @@
 /*   By: gdannay <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 10:30:17 by gdannay           #+#    #+#             */
-/*   Updated: 2018/01/04 19:16:15 by gdannay          ###   ########.fr       */
+/*   Updated: 2018/01/05 11:14:31 by gdannay          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # define F_BR 4
 # define F_T 8
 # define F_A 16
+# define F_P 32
+# define F_D 64
+# define F_S 128
 
 # include <stdlib.h>
 # include <stdio.h>
@@ -40,7 +43,6 @@ typedef struct		s_file
 	int				links;
 	int				atime;
 	time_t			mtime;
-	int				ctime;
 	unsigned char	type;
 	char			*d_link;
 	int				blocks;
@@ -74,7 +76,7 @@ int					usage(int flag);
 int					manage_error(char **av, int flag, int i, int ac);
 struct dirent		*check_file(char *path, char *file, char *error);
 t_length			*create_l();
-void				print_det(t_file *tmp, t_length *length);
+void				print_det(t_file *tmp, t_length *length, int flag, int i);
 void				compute_length(t_length *length, t_file *tmp);
 int					display_bigr(t_file *file, int flag,
 					t_length **length, char *path);
@@ -88,5 +90,8 @@ int					get_last(char **av, int a);
 int					check_flag(char *str, int first);
 int					algo(t_rep *rep, int flag, char *path);
 int					fts_error(void);
+int					timecmp(t_file *tmp, t_file *comp, int rev);
+int					namecmp(t_file *tmp, t_file *comp, int rev);
+int					sizecmp(t_file *tmp, t_file *comp, int rev);
 
 #endif

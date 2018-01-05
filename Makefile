@@ -6,7 +6,7 @@
 #    By: gdannay <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/15 10:22:09 by gdannay           #+#    #+#              #
-#    Updated: 2018/01/04 18:40:32 by gdannay          ###   ########.fr        #
+#    Updated: 2018/01/05 11:13:16 by gdannay          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SRCS	=	./srcs/ft_ls.c			\
 			./srcs/manage_lflag.c	\
 			./srcs/manage_list.c	\
 			./srcs/display_bigr.c	\
-			./srcs/checks.c
+			./srcs/checks.c			\
+			./srcs/cmp.c
 
 OBJS	=	$(SRCS:.c=.o)
 
