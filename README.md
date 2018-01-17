@@ -1,3 +1,3 @@
 # ft_ls
 
-Coding the ls function.
+Recoding the standard ls function
